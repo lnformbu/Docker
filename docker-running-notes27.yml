@@ -1,0 +1,327 @@
+AWS WEB SERVICES:
+  # 1. server resources 
+      ec2-instances
+ # 2. serverles resources 
+       Lambda 
+       fargate profile 
+ # 3. storage recources
+       EBS = ELASTIC BLOCK STORE  (ebs-jenkins-vol )
+         We mount the root file system using EBS VOLUME
+         /etc /bin /home /opt  /app 
+         The R/W speed is very fast with EBS
+         It is use equally to boot-up (start) servers  
+
+       EFS/NFS = ELASTIC FILE SYSTEM 
+          dbServer1 
+             /app
+             touch names.txt 
+          dbServer2 
+             /app
+          dbServer3 
+            /app        
+       S3  =  object storage
+              log files / audio files / videos / 
+              archives -- 2010logs.zip 
+              artifacts -- app.war
+              data migration 
+              versioning   
+              costing strategy:
+                   standard=Frequent access ---> $50
+                   IA - InFrequent access        $25
+                   Reduce redundancy             $15
+                   Glacier                       $5               s3 storgae classes:
+
+  Netflix ---> 
+
+  # 4. security resources:
+       IAM ---> identiy, manadgement, and Access. 
+       VPC and its components ---> 
+         private subnets 
+         Route Tables 
+       Security Groups 
+       private key pair
+       NACL 
+       Secret managers 
+       Paramenter store 
+       WAF 
+       ELB [users--->elb---applications]
+ # 5. DATABASES :
+       RDS [mySQL, mariaDB]
+       nonRDS [dynamoDB,]
+ # 6. Networking resources
+        VPC / VPN 
+        Route53
+
+This are not the complete services of AWS:
+  AWS SOLUTION ARCHITECT COURSE ----
+
+95% has zero certification  
+You will apply for a job as someone with experience:
+
+# IAM ---> 
+   Dominion Systems Inc. has 5 aws accounts with 600 Engineers
+   In my team I work with 13 Engineers
+
+  manages:
+    1. How to access AWS resources 
+         Console access-GUI [username and password]
+         Sign in as IAM user
+            account no: 800894970101 
+            username: landmark 
+            password: admin@12345...!@@#
+            multi-factor authenticator 
+         Pragramatic access[CLI, sdk, terraform]
+            access-Key: @@##$NHGFDASHgggfd
+            secret-access-key:@@##$%%*&<MJKJHHGTDSRTEOPOI{OIKOIUG
+    2. Who can access AWS resources / services 
+AWS Organisation:
+  account no1: 800894970101 
+  account no2: 800894970155
+  account no3: 560372791671  
+
+Docker 
+======
+Docker is a containerisation software used to package 
+applications and all its dependencies. 
+With docker applications runs seamlessly in all Environments. 
+  app.war        = application code 
+  tomcat/java    = dependencies 
+In Dominion we manage 4 Environments 
+   Dev 
+   stage 
+   uat/pre-prod 
+   prod 
+
+Docker is a software use to create docker images and
+ run  containerized  apps. 
+
+Docker is used by Developers, Administrator and others to build 
+    and run applications as containers.
+
+We maintain a minimun of 3 ENVIRONMENTS = 
+   dev ---> 
+   stage/testing  -->
+   production --> 
+
+  dev branch --> developed -- build -- tested (Unit Testing)
+     --> deploy (TomcatServer - VM)
+       running well 
+  QA branch --> developed -- build -- tested (add Testing) 
+    --> deploy (VM) 
+        running well
+  Stage branch --> developed -- build -- tested (add Testing)
+   --> deploy (VM)
+         NOT running well
+  
+ Tomcat appServer
+    patching 
+    installation
+
+    scp app.war tomcat@tomcat/webapps/app.war 
+
+  app.war
+     tomcat
+     java
+
+ --> image ---> contianer 
+docker image = app + dependencies 
+               app.war + tomcat 
+               myapp.jar + java
+                 javac myapp.jar
+               app.ear + Jboss
+Docker Editions:
+    Docker CE --> Comunity Edition --> Open Source (Free)
+    Docker EE --> Enterprise Edition --> Commercial
+
+Type: Containerization
+Vendor: Docker INC
+
+Installation:
+O.S --> Cross Platform (Docker can be installed in any O.S)
+        Linux -- CentOS / ubuntu / redhat
+        Windows --- 
+
+Assignment---> Install docker desktop in your personal computer
+
+    Docker Can Be Installed in Linux, Windows OS, mac OS, etc.  
+
+Docker CE Can be installed in Most of the linux distribution except redhat.
+         ubuntu /  centos / Amazon Linux
+
+Docker EE can installed in all O.S including redhat.
+Docker CE --> OpenSource Free  
+
+What is your experience in Open Source technology:
+  SOFTWARES: java / tomcat / nexus / maven / sonar / git / github / jenkins 
+             Docker-CE
+  Linux OS distribution: ubuntu / centOS, 
+
+Docker EE --> Commerical :
+   DTR --> Docker Trusted Registry(Private Repo to keep docker images)
+   UCP --> Universal Control Plane --> It's GUI for managing Docker Machines
+
+Containerzation Platforms/Softwares.     :
+    Docker,     = 80%
+    CoreOS,     = 9%
+    Rocket --   = 6%
+    Container-D = 5%
+
+Docker Container--> It's a runtime instance of a docker image
+                    where our application is running.
+
+     The standard unit where the application service is deployed or running.
+
+ GitHub / 
+ Nexus  
+
+  Code are managed by SCM = GitHub 
+  Packages (app.war) are uploaded and managed in Nexus 
+  Docker images are stored and/or managed in dockerhub/Registries  
+
+Docker Repo/Registry. --> We can store and share docker images.   
+
+    Public Repo --> Docker hub 
+       is It is generally a public repo. 
+      Which contains all the open source softwares as  a docker images. 
+       We can think of docker hub as play store for docker images.
+
+    Private Repo (ECR, Nexus, JFrog, D.T.R(Docker Trusted Registory)) --> 
+            We can store and share the docker images with in our company
+        network using private repos
+  
+
+ PaaS  = 
+ IaaS  = EC2
+ SaaS  = DockerHub, New Relic, GitHub, SonarCloud
+
+What is docker hub?
+It's a public repository for docker images. You can think as play store for
+docker images.
+First Create Account in docker hub
+    https://hub.docker.com
+
+
+############################
+#!/bin/bash
+ Ubuntu Server 18.04 LTS (HVM),
+ redhat ec2-instances creates ec2-users by default 
+ ubuntu ec2-instances creats ubuntu user by default
+-----
+#!/bin/bash
+sudo hostname docker
+sudo apt update -y 
+sudo apt install docker.io -y
+sudo usermod -aG docker ubuntu 
+sudo su - ubuntu
+=========================
+Docker commands need admins right or
+ sudo priviledges to run docker commands 
+===================================
+docker comes with:
+  engine/daemon --- That performs tasks  
+  cli    --- docker 
+Docker commands:
+  docker info 
+  docker --version 
+
+Dominion Systems = 
+Java based application
+https://github.com/LandmakTechnology/java-web-app
+      src / tests / pom.xml
+      mvn package  [target/app.war]
+     
+      Jenkinsfile /  
+
+applications code:  web-app.war  
+dependencies: tomcat:8.0.20-jre8
+
+Dockerfile  --- Instructions used to create docker images  
+
+  FROM tomcat:8.0.20-jre8
+  COPY target/web-app.war /usr/local/tomcat/webapps/web-app.war
+
+  COPY target/web-app.war /opt/tomcat9/webapps/web-app.war
+
+FROM is use for the minimal base image 
+  FROM tomcat:jdk17-temurin-focal
+
+The default name for dockerfile is 'Dockerfile'
+Docker images
+  docker build   = create a docker images 
+     docker build -t appimage:1 .  
+          build from default name
+     docker build -t appimage:1 -f Dockerfile-jboss . 
+         -f flag when building from custom name
+  docker images  = list docker images 
+Docker Containers --- This is a running instance of docker images 
+ docker run  = will create and start a container  
+    docker run --name containerName -d -p hostPort:containerPort imageName:v 
+    docker run --name myapp -d -p  8000:8080  appimage:1  
+    docker run --name webapp -d -p 9000:8080  appimage:2  
+    docker run --name hello -d -p  80:80 mylandmarktech/hello [latest]
+    docker run --name springapp -d -p 8080:8080 mylandmarktech/spring-boot-mongo
+ docker ps  = list running containers 
+
+ http://35.171.7.100:8000/web-app/
+ http://35.171.7.100:9000/ebay/
+ http://35.171.7.100:80 
+ http://35.171.7.100:90
+        54.234.146.130:90 
+Docker Server has 65536 
+
+Dockerfile-----Images------Containers
+         Build        Run
+
+Docker registry 
+Docker commands: 
+  docker build = create an image from a Dockerfile
+     docker build -t mylandmarktech/maven-web-app . 
+  docker images  = list images
+  docker create = create a docker container
+  docker start = start the docker container/application
+  docker run = create and start a container
+  docker ps  = list all running containers
+  docker ps -a  = list all running containers and stopped/EXITED containers
+  docker login -u mylandmarktech
+  docker push  = push images to Registry / dockerhub 
+  docker tag 
+    docker build -t appimage:2 .  
+    docker tag appimage:2 mylandmarktech/maven-web-app:11 
+    docker tag appimage:2 mylandmarktech/maven-web-app
+    docker tag appimage:1 mylandmarktech/maven-web-app:12 
+    docker push mylandmarktech/maven-web-app:tagname
+
+Docker images commands:
+  docker build   = create images  
+  docker tag  = assigns repository name to images 
+  docker images    = list images
+  docker images -q = list image ids 
+  docker image ls  = list images
+  docker rmi imageID/name:tag     = delete an image
+  docker rmi -f imageID/name:tag  = force delete an image
+  docker rmi -f a848f84f4894 
+  docker rmi -f  $(docker images -q)
+  image2 
+  docker run image2 
+
+Docker container commands:
+  docker pull mylandmarktech/maven-web-app:12 
+  docker scan mylandmarktech/maven-web-app:12
+  docker run -d -p 3000:8080 mylandmarktech/maven-web-app:12
+  docker run [pull, create and start]
+      docker scan 
+      docker pull,
+      docker create and 
+      docker start
+docker run -d -p 3000:8080 mylandmarktech/maven-web-app:12
+   portable 
+localhost:3000 
+
+How to resolves issues occuring in a docker container??
+
+version of windows:
+  windows 10 Home
+  windows 10 professional 
+
+pay@mylandmarktech.com 
+

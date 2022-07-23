@@ -1,0 +1,477 @@
+====================
+Docker is a software use to create docker images and run  containerized  apps. 
+
+Docker is used by Developers, Administrator and others to build 
+    and run applications as containers.
+
+We maintain a minimun of 3 ENVIRONMENTS = 
+   dev ---> 
+   stage/testing  -->
+   production --> 
+
+  dev branch --> developed -- build -- tested (Unit Testing) --> deploy (TomcatServer - VM)
+       running well 
+  QA branch --> developed -- build -- tested (add Testing) --> deploy (VM) 
+        running well
+  Stage branch --> developed -- build -- tested (add Testing) --> deploy (VM)
+         NOT running well
+  
+  virtualisation :
+     VM 
+  Containerization:     VM 
+
+We maintain a minimun of 3 ENVIRONMENTS = 
+    dev branch    --> dev                   =  it is working   
+    stage branch  --> staging/UAT/TESTING   =  it is working 
+    master branch --> production            =  it is not working 
+
+   virtual machine = ec2 instance 
+    tomcat 
+
+ Tomcat 
+    patching 
+    installation
+
+    scp app.war tomcat@tomcat/webapps/app.war 
+
+  app.war
+     tomcat
+     java
+
+ --> image ---> contianer 
+
+docker image = app + dependencies 
+               app.war + tomcat 
+               myapp.jar + java
+               app.ear + Jboss
+
+ With containerisation applications will run seamlessly in any ENVIRONMENT
+
+Docker Editions:
+    Docker CE --> Comunity Edition --> Open Source (Free)
+    Docker EE --> Enterprise Edition --> Commercial
+
+Type: Containerization
+Vendor: Docker INC
+
+O.S --> Cross Platform (Docker can be installed in any O.S)
+
+Assignment---> Install docker desktop in your personal computer
+
+    Docker Can Be Installed in Linux, Windows OS, mac OS, etc.  
+
+Docker CE Can be installed in Most of the linux distribution except redhat.
+         ubuntu /  centos / Amazon Linux
+
+Docker EE can installed in all O.S including redhat.
+
+Docker CE --> OpenSouce Free
+
+Docker EE --> Commerical :
+   DTR --> Docker Trusted Registry(Private Repo to keep docker images)
+   UCP --> Universal Control Plane --> It's GUI for managing Docker Machines
+
+Containerzation Platforms/Softwares.     :
+    Docker,  = 80%
+    CoreOS,  = 10%
+    Rocket --= 10%
+
+e-commerce:
+  ebay --
+   register
+   login
+   create cart 
+   payment
+   order
+
+Jenkinsfile    --> pipeline script 
+
+Dockerfile     --> It's a list of instructions used 
+                   It's a file used to create docker images.
+
+Docker Image  --> It's a package containing
+    application Code e.g ebay.war, paypal.war 
+       and
+    All it's dependencies (Softwares, ENV Vars ..etc)
+
+   mvn package = 
+     app.war = docker iamge = app.war + tomcat/java   
+     app.ear = docker image = app.ear + JBOSS/java
+     app.jar = docker image = app.jar + java  
+
+   image  = 
+
+Docker Container--> It's a runtime instance of a docker image
+                    where our application is running.
+
+     The standard unit where the application service is deployed or running.
+
+ GitHub / Nexus  
+
+  Code are managed by SCM = GitHub 
+  Packages (app.war) are uploaded and managed in Nexus 
+  Docker images are stored and/or managed in dockerhub  
+
+Docker Repo/Registry. --> We can store and share docker images.   
+
+    Public Repo --> Docker hub 
+       is It is generally a public repo. 
+      Which contains all the open source softwares as  a docker images. 
+       We can think of docker hub as play store for docker images.
+
+    Private Repo (ECR, Nexus, JFrog, D.T.R(Docker Trusted Registory)) --> 
+            We can store and share the docker images with in our company
+        network using private repos
+  
+
+ PaaS  = 
+ IaaS  = EC2
+ SaaS  = DockerHub, New Relic, GitHub, SonarCloud
+
+Docker Engine/Daemon/Host --> It's a software or program which we can 
+                               create images & RUN contianers.
+
+Docker is cross platform.
+
+Docker CE
+   Docker CE will not be supported by Redhat.
+   
+Docker EE
+  Docker EE will be support most of the os including redhat.
+
+      
+First Create Account in docker hub
+https://hub.docker.com
+
+  
+What is docker hub?
+It's a public repository for docker images. You can think as play store for
+docker images.
+
+Install Docker on AWS Ubuntu:
+ssh -i "devopskey.pem" ubuntu@ec2-3-80-26-218.compute-1.amazonaws.com
+ssh -i devopskey.pem ubuntu@3.80.26.218
+
+############################
+#!/bin/bash
+Ubuntu Server 18.04 LTS (HVM),
+sudo hostname docker
+sudo apt update -y 
+sudo apt install docker.io -y
+sudo usermod -aG docker ubuntu 
+===================================
+
+ssh -i "cicd.pem" ubuntu@ec2-18-209-168-14.compute-1.amazonaws.com
+
+ssh -i "cicd.pem" ubuntu@18.209.168.14
+
+  We created ubuntu server
+  We installed docker using user-data (Script)
+  The default user for ec2 ubuntu server is ubuntu 
+
+sudo -i
+echo "jenkins  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/jenkins 
+cat /etc/passwd
+sudo su - jenkins
+
+sudo apt update -y 
+sudo apt install docker.io -y
+sudo usermod -aG docker jenkins 
+sudo usermod -aG docker ubuntu 
+
+ = User user-data 
+NB: apt and apt-get are package managers for ubuntu servers 
+
+sudo docker info
+
+ssh -i "cicd.pem" ubuntu@ec2-54-196-212-249.compute-1.amazonaws.com
+
+ssh -i "cicd.pem" ubuntu@54.196.212.249
+
+https://github.com/LandmakTechnology/maven-web-app/blob/master/ansible-setup
+
+# Check docker is installed or not
+   docker info
+   docker --version
+
+=# You will get permison denied error as regular user 
+    dosn't have permisions to execute docker commands.Add user to docker group.
+
+sudo usermod -aG docker $USER 
+or 
+sudo usermod -aG docker ubuntu
+
+sudo usermod -aG docker simon
+
+# Exit From Current SSH Terminal & SSH(Login) again.Then execute 
+docker ps
+
+Install Docker on AWS RHEL
+############################
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf install docker-ce-3:18.09.1-3.el7 -y
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo docker info
+adduser simon
+
+# Check docker is installed or not
+docker info
+##
+sudo apt update
+sudo apt install openjdk-11-jdk
+Confirm installation:
+sudo apt install openjdk-11-jdk
+checking installation:
+java -version
+###########
+install jenkis in ubuntu:
+
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+
+# You will get permison denied error as regular user dosn't have permisions to execute docker commands.Add user to docker group.
+
+sudo usermod -aG docker $simon 
+sudo usermod -aG docker ec2-user
+
+# Exit From Current SSH Terminal & SSH(Login) again .Then execute 
+docker ps
+
+Amazon Linux 2
+================
+sudo yum update -y		
+sudo yum install docker -y
+sudo systemctl start docker
+
+Add Regural user to dockergroup
+sudo usermod -aG docker  <username>
+
+ex:
+sudo usermod -aG docker ec2-user
+
+Once you add user to group exit from the server and login again.
+# Get docker information
+docker info
+
+=#Install Docker in Linux (Works for most of linux flavors).
+
+sudo curl -fsSL get.docker.com | /bin/bash
+done with installation of docker 
+
+  curl ifconfig.co 
+
+Docker Home/Working Dir: 
+/var/lib/docker
+
+All examples provided here work in RHEL
+
+  git fetch/status/add/commit/push/merge/
+
+docker comes with a cli --- docker 
+
+Docker commands 
+  docker build = create an image from a Dockerfile
+     docker build -t mylandmarktech/maven-web-app . 
+  docker images  = list images
+  docker create = create a docker container
+  docker start = start the docker container/application
+  docker run = create and start a container
+  docker ps  = list all running containers
+  docker ps -a  = list all running containers and stopped containers
+  docker login -u mylandmarktech
+  docker push  = push images to Registry / dockerhub 
+
+Your password will be stored unencrypted in /var/lib/jenkins/.docker/config.json
+
+ docker pull   --> open source without authentication 
+ docker push mylandmarktech/class26-web-app
+
+  docker pull mylandmarktech/nodejs-app
+
+  docker pull mylandmarktech/nodejs-fe-app
+
+Deploying applications as a docker container:
+
+  docker run -d -p 8000:8080 mylandmarktech/maven-web-app
+
+ users---> (8000)dockerHost ---->container(8080)
+
+   18.209.168.14:8000/maven-web-app
+
+======
+#Dockerfile
+
+FROM tomcat:8.0.20-jre8  #(softwares + dependencies)
+COPY target/*war /usr/local/tomcat/webapps/maven-web-app.war
+
+Project:
+  Jenkins docker integration
+
+1.  Run a container in interactive mode:
+$ docker run -it ubuntu /bin/bash  = Run a bash shell inside an image
+
+2.  Run a container in detached mode:
+$ docker run --name mywildfly -d -p 8080:8080 jboss/wildfly
+
+3.  Run a detached container in a previously created docker network:
+$ docker network create mynetwork
+$ docker run --name mywildfly-net -d --net mynetwork -p 8080:8080 jboss/wildfly
+
+4.  Run a detached container mounting a local folder inside the container:
+$ docker run ••name mywildfly•volume •d \
+• v myfolder/:/opt/jboss/wildfly/standalone/deployments/ \
+• p 8080:8080 jboss/wildfly
+
+5.  Follow the logs of a specific container
+$ docker logs •f mywildfly
+$ docker logs •f <container•name>
+
+
+Dockerfile   --> It's file which will have instructions to create docker image.
+
+=Sample DockerFile Content
+
+ code --> build (mvn package) --> Testing -- Deployment
+
+ maven-web-app.war
+
+FROM: tomcat:8.0.20-jre8
+
+COPY: target/*.war /usr/local/tomcat/webapps/maven-web-app.war
+
+  docker build 
+
+  sudo chown jenkins:jenkins -R /var/run/docker.sock
+
+   54.196.212.249:8080 
+
+   http://54.196.212.249:8080/
+
+   http://54.196.212.249:8080/job/paypal-project/
+
+FROM tomcat:9.0.40-jdk8
+# Dummy text to test 
+COPY target/myapps.war /usr/local/tomcat/webapps/myapps.war
+
+docker build -t myapp:1 .  # dockerfile is in PWD
+
+docker run --name myapps -d -p 8000:8080 myapp:1
+
+docker run --name myapps -d -p hostPort:ContainerPort imageName:version
+   -d = detachable 
+   -p = port forwarding 
+
+==Jenkinsfile 
+node {
+  def mavenHome = tool name: 'maven3.8.2'
+  stage('1-Clone') {
+    git 'https://github.com/Landmark-Technologies/maven-web-application' 
+  }
+  stage('2-build') {
+    sh "${mavenHome}/bin/mvn clean package"
+  }
+  stage('3-CodeQuality') {
+   //sh "${mavenHome}/bin/mvn sonar:sonar"
+  }
+  stage('4-Nexus') {
+    //sh "${mavenHome}/bin/mvn deploy"
+  }
+   stage('5-deployDocker') {
+    sh "docker build -t image:1 . "
+    sh "docker run --name web-app -d -p 7000:8080 image:1" 
+   }
+
+   stage('6-email') {
+    //sh
+   }
+} 
+
+
+  54.196.212.249:7000/maven-web-app 
+
+Docker commands
+  docker build = create an image from a Dockerfile 
+  docker ps  = list running containers
+  docker images  = list images
+  docker run = create and start a container
+  docker create = create a docker container
+  docker login -u mylandmarktech
+  docker push  = push images to Registry / dockerhub
+
+Developers write and commit new version of
+the application in github
+Jenkins--Docker integration fintech Project:
+  4 weeks
+    stages||steps:
+      1- git clone  -----   git latest code / NewVersion
+      2. mvn test --        Test + Build
+      2B mvn package        Build (war)
+      3. codeQality    ---- codeQality report
+      4. upLoadArtifacts  -- backupArtifacts
+           docker exec nexus  cat /nexus-data/admin.password 
+           vi tools/hudson.tasks.Maven_MavenInstallation/maven3.8.4/conf/settings.xml
+           Build + Release
+      5. docker build    --- build docker images 
+      6. docker push     --  push image to Registry (dockerhub)
+                               ECR / Nexus/JFrog
+      7. docker run      --  deploy application as docker container
+      8. Email notification 
+
+Inspect  Image commands
+====================
+docker build  == build the image 
+docker pull   == 
+
+docker scan 
+docker image inspect <imageId/Name>
+docker inspect 
+  checks configurations contain in the docker image 
+  it also troubleshoot 
+
+  "WorkingDir": "/usr/local/tomcat/webapps/app.war",
+  scan 
+
+Light
+
+How to list only layers of an image?:
+
+docker history <imageId/Name>
+
+Delete Image:
+
+docker rmi <imageId/Namdocker rmie>
+
+docker rmi 6997efe403c7
+
+docker rmi -f <imageId/Name>
+
+docker ps = List running containers 
+docker ps -a = All containers
+
+docker images = list all docker images
+
+Note: We can't remove images if container are running  from the image.
+      We can't force delete images if there is running container.
+
+If container is in stopped(exited) state we can force delete image for the stopped container.
+
+what is dangling images in docker?
+The image which doesn't have repository mapping or tag.
+
+How to delete all the images?
+
+docker rmi -f imageId1 imageId2 imageIdn
+
+docker rmi -f $(docker images -q)
+
+docker system prune 
+Will delete all stopped containers, unused docker networks and dangling images.
+An image that is not tagged to any repo is call Dangling images.
+
+docker image prune
+
+Will delete dangling images.
